@@ -557,7 +557,7 @@ let currentPage = 1;
 
 function setupProductEvents() {
   // 📌 ดักการคลิกปุ่ม "เพิ่มลงตะกร้า" ในทุก Grid (ใช้ได้ทั้ง product.html และ index.html)
-  ["product-grid", "featured-products"].forEach((containerId) => {
+  ["product-grid", "featured-products", "newest-products"].forEach((containerId) => {
     const container = document.getElementById(containerId);
     if (container) {
       container.addEventListener("click", (e) => {
