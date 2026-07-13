@@ -4,7 +4,8 @@ import mongoose from "mongoose";
 const optionSchema = new mongoose.Schema(
   {
     _id: { type: String, required: true },
-    text: { type: String, required: true },
+    text: { type: String },
+    option_text: { type: String },
   },
   { _id: false },
 );
@@ -14,9 +15,9 @@ const questionSchema = new mongoose.Schema(
   {
     _id: { type: String, required: true },
     question_text: { type: String, required: true },
-    options: [optionSchema], // ตัวเลือกคำตอบ A-D
-    correct_option_id: { type: String, required: true }, // ข้อที่ถูกต้อง (เก็บไว้เฉลย)
-    explanation: { type: String, default: "" }, // คำอธิบายเฉลย (ถ้ามี)
+    options: [optionSchema],
+    correct_option_id: { type: String, required: true }, // รองรับทั้ง UUID และ "A","B","C","D"
+    explanation: { type: String, default: "" },
   },
   { _id: false },
 );
@@ -27,12 +28,29 @@ const examSchema = new mongoose.Schema(
     _id: { type: String, required: true },
     exam_name: { type: String, required: true, trim: true },
     description: { type: String, default: "" },
-    category: { type: String, default: "ทั่วไป", trim: true }, // หมวดหมู่ (ถ้าไม่ส่งมาจะเป็น "ทั่วไป")
-    time_limit_minutes: { type: Number, required: true, min: 1 }, // เวลาทำข้อสอบ (นาที)
-    questions: [questionSchema], // รายการข้อสอบทั้งหมด
+    category: { type: String, default: "ทั่วไป", trim: true },
+    time_limit_minutes: { type: Number, required: true, min: 1 },
+    questions: [questionSchema],
   },
-  { timestamps: true },
+  {
+    timestamps: true,
+  },
 );
+
+// 🛠️ ฟังก์ชันเสริมล้างข้อมูลและแก้คำผิดอัตโนมัติก่อนบันทึกหรือใช้งาน
+examSchema.pre("validate", function () {
+  if (this.questions && this.questions.length > 0) {
+    this.questions.forEach((q) => {
+      // 1. ดักแก้ปัญหากรณีข้อมูล text กับ option_text สลับกัน
+      if (q.options && q.options.length > 0) {
+        q.options.forEach((opt) => {
+          if (opt.option_text && !opt.text) opt.text = opt.option_text;
+          if (opt.text && !opt.option_text) opt.option_text = opt.text;
+        });
+      }
+    });
+  }
+});
 
 const Exam = mongoose.model("Exam", examSchema);
 export default Exam;

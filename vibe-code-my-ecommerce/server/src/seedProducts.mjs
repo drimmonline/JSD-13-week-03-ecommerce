@@ -18,6 +18,7 @@ const products = [
       "https://images.unsplash.com/photo-1635070041078-e363dbe005cb?w=400&h=300&fit=crop",
     stock_quantity: 50,
     product_price: 149,
+    category: "คณิตศาสตร์",
   },
   {
     product_name: "ชีทสรุปภาษาอังกฤษ Grammar & Writing",
@@ -27,6 +28,7 @@ const products = [
       "https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?w=400&h=300&fit=crop",
     stock_quantity: 35,
     product_price: 179,
+    category: "ภาษาอังกฤษ",
   },
   {
     product_name: "ชีทสรุปเคมี ม.ปลาย (สมดุลเคมี & กรด-ด่าง)",
@@ -36,6 +38,7 @@ const products = [
       "https://images.unsplash.com/photo-1532094349884-543bc11b234d?w=400&h=300&fit=crop",
     stock_quantity: 40,
     product_price: 159,
+    category: "เคมี",
   },
   {
     product_name: "ชีทสรุปฟิสิกส์ ม.ปลาย (กลศาสตร์ & พลังงาน)",
@@ -45,6 +48,7 @@ const products = [
       "https://images.unsplash.com/photo-1636466497217-26a8cbeaf0aa?w=400&h=300&fit=crop",
     stock_quantity: 30,
     product_price: 169,
+    category: "ฟิสิกส์",
   },
   {
     product_name: "ชีทสรุป Computer Science พื้นฐาน (Data Structure & Algorithm)",
@@ -54,6 +58,7 @@ const products = [
       "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=400&h=300&fit=crop",
     stock_quantity: 25,
     product_price: 199,
+    category: "Computer Science",
   },
 ];
 

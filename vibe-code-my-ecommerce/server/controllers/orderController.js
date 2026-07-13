@@ -96,6 +96,18 @@ export const getMyOrders = async (request, response) => {
   }
 };
 
+// 🛡️ ดูออเดอร์ทั้งหมด (Admin เท่านั้น)
+export const getAllOrders = async (request, response) => {
+  try {
+    const orders = await Order.find().sort({ createdAt: -1 });
+    return response.json(orders);
+  } catch (err) {
+    return response
+      .status(500)
+      .json({ msg: `ดึงข้อมูลออเดอร์ทั้งหมดไม่สำเร็จ: ${err.message}` });
+  }
+};
+
 // ดูรายละเอียดออเดอร์ตาม ID
 export const getOrderById = async (request, response) => {
   try {

@@ -4,8 +4,17 @@
 
 window.API_BASE = window.API_BASE || "http://localhost:3000/api";
 
-function getToken() {
-  return localStorage.getItem("token"); // 👈 ตรวจสอบชื่อ Key ให้ตรงกับตอนที่คุณบันทึกสั่ง Login สำเร็จ
+// ===== แปลง Decimal128 (MongoDB) ให้เป็นตัวเลขปกติ =====
+// Decimal128 ถูก serialize เป็น object เช่น { "$numberDecimal": "149.00" }
+function parseDecimal(val) {
+  if (val === null || val === undefined) return 0;
+  if (typeof val === "number") return val;
+  if (typeof val === "string") return parseFloat(val) || 0;
+  // object แบบ { "$numberDecimal": "..." }
+  if (typeof val === "object" && val.$numberDecimal) {
+    return parseFloat(val.$numberDecimal) || 0;
+  }
+  return 0;
 }
 
 // ===== ดึงประวัติออเดอร์ของผู้ใช้ =====
@@ -44,12 +53,7 @@ function renderOrders(orders) {
 
   container.innerHTML = orders
     .map((order) => {
-      // 🛠️ แก้ไขจุดที่ 1: ดักจับราคารวม (เผื่อหลังบ้านใช้ total_amount, totalPrice หรือ total)
-      const rawTotal =
-        order.total_amount || order.totalPrice || order.total || 0;
-      const totalAmount = isNaN(parseFloat(rawTotal))
-        ? 0
-        : parseFloat(rawTotal);
+      const totalAmount = parseDecimal(order.total_amount || order.totalPrice || order.total);
 
       const date = new Date(
         order.order_date || order.createdAt,
@@ -63,11 +67,7 @@ function renderOrders(orders) {
       // แสดงสินค้าแต่ละรายการ
       const itemsHTML = (order.order_details || [])
         .map((item) => {
-          // 🛠️ แก้ไขจุดที่ 2: ดักจับราคาสินค้าต่อชิ้น (เผื่อหลังบ้านใช้ price_at_purchase หรือ price)
-          const rawPrice = item.price_at_purchase || item.price || 0;
-          const itemPrice = isNaN(parseFloat(rawPrice))
-            ? 0
-            : parseFloat(rawPrice);
+          const itemPrice = parseDecimal(item.price_at_purchase || item.price);
 
           const qty = parseInt(item.quantity) || 1;
 
@@ -122,9 +122,7 @@ async function showOrderDetailModal(orderId) {
 
   try {
     const order = await fetchOrderById(orderId);
-    const totalAmount = order.total_amount
-      ? parseFloat(order.total_amount.toString())
-      : 0;
+    const totalAmount = parseDecimal(order.total_amount);
     const date = new Date(
       order.order_date || order.createdAt,
     ).toLocaleDateString("th-TH", {
@@ -142,9 +140,7 @@ async function showOrderDetailModal(orderId) {
     // รายการสินค้า
     const itemsHTML = (order.order_details || [])
       .map((item) => {
-        const itemPrice = item.price_at_purchase
-          ? parseFloat(item.price_at_purchase.toString())
-          : 0;
+        const itemPrice = parseDecimal(item.price_at_purchase);
         return `
         <div class="order-detail-item">
           <img src="${getProductImage(item.product_id)}" alt="${item.product_name}" />

@@ -21,7 +21,8 @@ const productSchema = new mongoose.Schema(
       type: Number,
       required: true,
       min: 0,
-    }, // 🎯 เปลี่ยนเป็น Number เพื่อความง่ายในการดึงไปคำนวณใน Node.js ครับ
+    },
+    category: { type: String, default: "ทั่วไป", trim: true }, // 🎯 เปลี่ยนเป็น Number เพื่อความง่ายในการดึงไปคำนวณใน Node.js ครับ
   },
   { timestamps: true }, // มี createdAt และ updatedAt ให้อัตโนมัติ ดีมากครับ!
 );

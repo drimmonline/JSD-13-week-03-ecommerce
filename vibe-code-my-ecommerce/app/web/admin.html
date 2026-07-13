@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>จัดการระบบ | StudySheet Admin</title>
+  <link rel="stylesheet" href="css/global.css" />
+  <link rel="stylesheet" href="css/admin.css" />
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="container">
+      <a href="index.html" class="navbar-brand">StudySheet</a>
+      <ul class="navbar-nav">
+        <li><a href="index.html">หน้าแรก</a></li>
+        <li><a href="product.html">ชีทสรุปทั้งหมด</a></li>
+        <li><a href="exam-list.html">ทำข้อสอบ</a></li>
+      </ul>
+      <div class="navbar-actions">
+        <div class="cart-dropdown-wrapper">
+          <div class="cart-badge cart-toggle">🛒 <span class="badge" id="cart-count"></span></div>
+          <div class="cart-dropdown" id="cart-dropdown"></div>
+        </div>
+        <div id="auth-nav"></div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Admin Layout -->
+  <div class="admin-layout">
+
+    <!-- Sidebar -->
+    <aside class="admin-sidebar">
+      <div class="admin-sidebar-header">
+        <h2>Admin Panel</h2>
+      </div>
+      <nav class="admin-sidebar-nav">
+        <button class="admin-nav-item active" data-section="dashboard">
+          <span class="admin-nav-icon">📊</span> แดชบอร์ด
+        </button>
+        <button class="admin-nav-item" data-section="products">
+          <span class="admin-nav-icon">📦</span> จัดการสินค้า
+        </button>
+        <button class="admin-nav-item" data-section="exams">
+          <span class="admin-nav-icon">📝</span> จัดการข้อสอบ
+        </button>
+      </nav>
+      <div class="admin-sidebar-footer">
+        <a href="index.html" class="admin-nav-item">
+          <span class="admin-nav-icon">🏠</span> กลับหน้าแรก
+        </a>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="admin-main">
+
+      <!-- ===== Section: Dashboard ===== -->
+      <section class="admin-section active" id="section-dashboard">
+        <h1>แดชบอร์ดสรุปยอดขาย</h1>
+
+        <!-- Filter ช่วงเวลา -->
+        <div class="admin-filter-bar">
+          <button class="filter-btn active" data-range="daily">รายวัน</button>
+          <button class="filter-btn" data-range="weekly">รายสัปดาห์</button>
+          <button class="filter-btn" data-range="monthly">รายเดือน</button>
+        </div>
+
+        <!-- Summary Cards -->
+        <div class="admin-summary-cards">
+          <div class="summary-card">
+            <div class="summary-card-label">ยอดขายทั้งหมด</div>
+            <div class="summary-card-value" id="total-revenue">฿0</div>
+          </div>
+          <div class="summary-card">
+            <div class="summary-card-label">ออเดอร์ทั้งหมด</div>
+            <div class="summary-card-value" id="total-orders">0</div>
+          </div>
+          <div class="summary-card">
+            <div class="summary-card-label">สินค้าทั้งหมด</div>
+            <div class="summary-card-value" id="total-products">0</div>
+          </div>
+          <div class="summary-card">
+            <div class="summary-card-label">ผู้ใช้ทั้งหมด</div>
+            <div class="summary-card-value" id="total-users">0</div>
+          </div>
+        </div>
+
+        <!-- สินค้าขายดี -->
+        <div class="admin-card">
+          <h2>สินค้าขายดี</h2>
+          <div id="top-products-list"></div>
+        </div>
+
+        <!-- ออเดอร์ล่าสุด -->
+        <div class="admin-card">
+          <h2>ออเดอร์ล่าสุด</h2>
+          <div id="recent-orders-list"></div>
+        </div>
+      </section>
+
+      <!-- ===== Section: Products ===== -->
+      <section class="admin-section" id="section-products">
+        <div class="admin-section-header">
+          <h1>จัดการสินค้า</h1>
+          <button class="btn btn-primary" id="btn-add-product">+ เพิ่มสินค้า</button>
+        </div>
+
+        <!-- ตารางสินค้า -->
+        <div class="admin-table-wrapper">
+          <table class="admin-table" id="products-table">
+            <thead>
+              <tr>
+                <th>รูป</th>
+                <th>ชื่อสินค้า</th>
+                <th>หมวดหมู่</th>
+                <th>ราคา</th>
+                <th>สต็อก</th>
+                <th>จัดการ</th>
+              </tr>
+            </thead>
+            <tbody id="products-tbody"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- ===== Section: Exams ===== -->
+      <section class="admin-section" id="section-exams">
+        <div class="admin-section-header">
+          <h1>จัดการข้อสอบ</h1>
+          <button class="btn btn-primary" id="btn-add-exam">+ เพิ่มข้อสอบ</button>
+        </div>
+
+        <!-- ตารางข้อสอบ -->
+        <div class="admin-table-wrapper">
+          <table class="admin-table" id="exams-table">
+            <thead>
+              <tr>
+                <th>ชื่อข้อสอบ</th>
+                <th>หมวดหมู่</th>
+                <th>จำนวนข้อ</th>
+                <th>เวลา (นาที)</th>
+                <th>จัดการ</th>
+              </tr>
+            </thead>
+            <tbody id="exams-tbody"></tbody>
+          </table>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- Modal: ฟอร์มเพิ่ม/แก้ไขสินค้า -->
+  <div class="modal-backdrop" id="product-modal" style="display:none;">
+    <div class="modal-content admin-modal">
+      <button class="modal-close" id="product-modal-close">✕</button>
+      <h2 id="product-modal-title">เพิ่มสินค้าใหม่</h2>
+      <form id="product-form" class="admin-form">
+        <input type="hidden" id="pf-product-id" />
+
+        <!-- Upload รูปภาพ + Preview -->
+        <div class="form-group">
+          <label>รูปสินค้า</label>
+          <div class="image-upload-area" id="image-upload-area">
+            <img id="image-preview" class="image-preview" style="display:none;" />
+            <div class="image-upload-placeholder" id="image-upload-placeholder">
+              <span>📷</span>
+              <span>คลิกเพื่ออัพโหลดรูป</span>
+            </div>
+            <input type="file" id="pf-image-file" accept="image/*" style="display:none;" />
+          </div>
+          <input type="hidden" id="pf-image" />
+        </div>
+
+        <div class="form-group">
+          <label for="pf-name">ชื่อสินค้า *</label>
+          <input type="text" id="pf-name" required />
+        </div>
+        <div class="form-group">
+          <label for="pf-detail">รายละเอียด</label>
+          <textarea id="pf-detail" rows="3"></textarea>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="pf-price">ราคา (฿) *</label>
+            <input type="number" id="pf-price" min="0" step="0.01" required />
+          </div>
+          <div class="form-group">
+            <label for="pf-stock">สต็อก *</label>
+            <input type="number" id="pf-stock" min="0" required />
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="pf-category">หมวดหมู่</label>
+          <input type="text" id="pf-category" placeholder="เช่น คณิตศาสตร์, ภาษาอังกฤษ" />
+        </div>
+        <div class="form-actions">
+          <button type="button" class="btn btn-outline" id="product-form-cancel">ยกเลิก</button>
+          <button type="submit" class="btn btn-primary">บันทึก</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal: ฟอร์มเพิ่ม/แก้ไขข้อสอบ -->
+  <div class="modal-backdrop" id="exam-modal" style="display:none;">
+    <div class="modal-content admin-modal">
+      <button class="modal-close" id="exam-modal-close">✕</button>
+      <h2 id="exam-modal-title">เพิ่มข้อสอบใหม่</h2>
+      <form id="exam-form" class="admin-form">
+        <input type="hidden" id="ef-exam-id" />
+        <div class="form-group">
+          <label for="ef-name">ชื่อข้อสอบ *</label>
+          <input type="text" id="ef-name" required />
+        </div>
+        <div class="form-group">
+          <label for="ef-desc">คำอธิบาย</label>
+          <textarea id="ef-desc" rows="2"></textarea>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="ef-category">หมวดหมู่ *</label>
+            <input type="text" id="ef-category" placeholder="เช่น คณิตศาสตร์" required />
+          </div>
+          <div class="form-group">
+            <label for="ef-time">เวลา (นาที) *</label>
+            <input type="number" id="ef-time" min="1" value="60" required />
+          </div>
+        </div>
+
+        <!-- คำถาม (Dynamic) -->
+        <div class="admin-questions-section">
+          <div class="admin-section-header" style="margin-top:1rem;">
+            <h3>คำถาม</h3>
+            <button type="button" class="btn btn-sm btn-outline" id="btn-add-question">+ เพิ่มข้อ</button>
+          </div>
+          <div id="questions-container"></div>
+        </div>
+
+        <div class="form-actions">
+          <button type="button" class="btn btn-outline" id="exam-form-cancel">ยกเลิก</button>
+          <button type="submit" class="btn btn-primary">บันทึก</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal: ยืนยันลบ -->
+  <div class="modal-backdrop" id="confirm-modal" style="display:none;">
+    <div class="modal-content admin-modal" style="max-width:400px;">
+      <h2 style="margin-bottom:1rem;">ยืนยันการลบ</h2>
+      <p id="confirm-message">คุณต้องการลบรายการนี้ใช่หรือไม่?</p>
+      <div class="form-actions">
+        <button class="btn btn-outline" id="confirm-cancel">ยกเลิก</button>
+        <button class="btn btn-danger" id="confirm-ok">ลบ</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <p>StudySheet © 2026</p>
+    </div>
+  </footer>
+
+  <script src="javascript/auth.js"></script>
+  <script src="javascript/product.js"></script>
+  <script src="javascript/admin.js"></script>
+</body>
+</html>

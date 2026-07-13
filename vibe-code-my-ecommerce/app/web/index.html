@@ -33,7 +33,6 @@
       style="
         padding: 6rem 0;
         text-align: center;
-        border-bottom: 1px solid var(--color-border);
       "
     >
       <div class="container" style="max-width: 700px">
@@ -76,14 +75,42 @@
       </div>
     </section>
 
-    <!-- Marketplace Section -->
+    <!-- Feature Cards -->
+    <section class="section">
+      <div class="container">
+        <div class="feature-cards">
+          <div class="feature-card">
+            <div class="feature-icon">🏆</div>
+            <h3 class="feature-title">การันตีจากคนสอบติด</h3>
+            <p class="feature-desc">กว่า 1,000 คนสอบติดแล้ว</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">🎯</div>
+            <h3 class="feature-title">ข้อสอบตรงจุด</h3>
+            <p class="feature-desc">เน้นหัวข้อที่ออกจริงในการสอบ</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">✅</div>
+            <h3 class="feature-title">การันตีสอบผ่าน</h3>
+            <p class="feature-desc">ออกแบบมาให้สอบผ่านแน่นอน</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">💰</div>
+            <h3 class="feature-title">ราคาสุดพิเศษ</h3>
+            <p class="feature-desc">คุ้มค่าในราคาเบาๆ</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Marketplace Section: สินค้าใหม่ล่าสุด -->
     <section class="section">
       <div class="container">
         <div class="section-header">
-          <h2>ชีทสรุปล่าสุด</h2>
-          <p>ชีทสรุปคุณภาพสูง อัปเดตล่าสุด เหมาะสำหรับเตรียมสอบ</p>
+          <h2>สินค้าใหม่ล่าสุด</h2>
+          <p>ชีทสรุปที่เพิ่งเข้ามาใหม่ สดๆ ร้อนๆ</p>
         </div>
-        <div class="product-grid" id="featured-products">
+        <div class="product-grid" id="newest-products">
           <div class="loading-overlay" style="grid-column: 1/-1">
             <span class="spinner"></span> กำลังโหลด...
           </div>
@@ -99,8 +126,6 @@
       class="section"
       style="
         background-color: var(--color-gray-100);
-        border-top: 1px solid var(--color-border-light);
-        border-bottom: 1px solid var(--color-border-light);
       "
     >
       <div class="container">

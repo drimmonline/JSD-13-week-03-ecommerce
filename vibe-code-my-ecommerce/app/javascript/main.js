@@ -3,13 +3,18 @@
 // โหลดสินค้า Featured และข้อสอบ Featured
 // ============================================
 
-// โหลดสินค้า featured (4 ชิ้นแรก)
-async function loadFeaturedProducts() {
-  const container = document.getElementById("featured-products");
+// โหลดสินค้าใหม่ล่าสุด (เรียงจากเวลาที่เพิ่ม 4 ชิ้นแรก)
+async function loadNewestProducts() {
+  const container = document.getElementById("newest-products");
+  if (!container) return;
   try {
     const products = await fetchProducts();
-    const featured = products.slice(0, 4);
-    renderProducts(featured, "featured-products");
+    // 🛠️ เรียงจาก createdAt ใหม่ไปเก่า
+    const sorted = products
+      .slice()
+      .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+    const newest = sorted.slice(0, 4);
+    renderProducts(newest, "newest-products");
   } catch (err) {
     container.innerHTML =
       '<div class="loading-overlay" style="grid-column:1/-1;">ไม่สามารถโหลดข้อมูลได้</div>';
@@ -45,13 +50,10 @@ async function loadFeaturedExams() {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-  // 📌 ตั้งค่า Navbar และ Cart Badge สำหรับหน้าแรก
   setupNavbar();
   updateCartCount();
-
-  // 📌 เปิดระบบดักฟังปุ่ม "เพิ่มลงตะกร้า" สำหรับหน้าแรก
   setupProductEvents();
 
-  loadFeaturedProducts();
+  loadNewestProducts();
   loadFeaturedExams();
 });

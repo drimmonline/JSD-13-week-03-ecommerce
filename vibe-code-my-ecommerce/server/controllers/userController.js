@@ -40,7 +40,7 @@ export const createUser = async (request, response) => {
 
     const newUser = new User({
       ...otherData,
-      account_type: otherData.account_type || "student", // 🛠️ แก้ไข: ใส่สิทธิ์เริ่มต้นป้องกันสิทธิ์ว่างจนโดน 403
+      account_type: "student", // 🛠️ บังคับ "student" เสมอ ป้องกันผู้ใช้ทั่วไปสมัครเป็น admin
       password: hashedPassword,
       _id: uuidv4(),
     });

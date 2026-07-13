@@ -13,9 +13,11 @@
 /* ===== Product Card ===== */
 .product-card {
   border: 1px solid var(--color-border-light);
+  border-radius: 12px;
   transition: border-color 0.15s, transform 0.15s;
   display: flex;
   flex-direction: column;
+  overflow: hidden;
 }
 
 .product-card:hover {
@@ -26,7 +28,6 @@
   width: 100%;
   aspect-ratio: 4 / 3;
   object-fit: cover;
-  border-bottom: 1px solid var(--color-border-light);
   background-color: var(--color-gray-100);
 }
 
@@ -168,14 +169,13 @@
   align-items: center;
   gap: 1rem;
   padding: 1rem 0;
-  border-bottom: 1px solid var(--color-border-light);
 }
 
 .cart-item-image {
   width: 80px;
   height: 80px;
   object-fit: cover;
-  border: 1px solid var(--color-border-light);
+  border-radius: 10px;
   flex-shrink: 0;
 }
 
@@ -204,7 +204,8 @@
   width: 50px;
   padding: 0.25rem;
   text-align: center;
-  border: 1px solid var(--color-border);
+  border: 1px solid var(--color-border-light);
+  border-radius: 6px;
   font-size: 0.875rem;
   font-family: var(--font-family);
 }
@@ -243,7 +244,7 @@
   font-size: 1.125rem;
   font-weight: 700;
   padding-top: 0.75rem;
-  border-top: 1px solid var(--color-border);
+  border-top: 1px solid var(--color-border-light);
   margin-top: 0.75rem;
 }
 
@@ -321,9 +322,11 @@
 /* ===== Order Card ===== */
 .order-card {
   border: 1px solid var(--color-border-light);
+  border-radius: 12px;
   margin-bottom: 1rem;
   cursor: pointer;
   transition: border-color 0.15s, transform 0.1s;
+  overflow: hidden;
 }
 
 .order-card:hover {
@@ -336,7 +339,6 @@
   justify-content: space-between;
   align-items: center;
   padding: 0.75rem 1rem;
-  border-bottom: 1px solid var(--color-border-light);
   font-size: 0.75rem;
   color: var(--color-gray-500);
 }
@@ -360,7 +362,7 @@
   width: 48px;
   height: 48px;
   flex-shrink: 0;
-  border: 1px solid var(--color-border-light);
+  border-radius: 8px;
   overflow: hidden;
 }
 
@@ -409,6 +411,7 @@
   font-size: 0.6875rem;
   font-weight: 600;
   letter-spacing: 0.02em;
+  border-radius: 6px;
 }
 
 .order-status-badge.status-pending {
@@ -566,5 +569,57 @@
 
   .timeline-label {
     font-size: 0.625rem;
+  }
+}
+
+/* ===== Feature Cards (หน้าแรก - ป้ายการันตี) ===== */
+.feature-cards {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+}
+
+.feature-card {
+  text-align: center;
+  padding: 2rem 1.5rem;
+  border: 1px solid var(--color-border-light);
+  border-radius: 12px;
+  background: #fff;
+  transition: box-shadow 0.2s ease;
+}
+
+.feature-card:hover {
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+}
+
+.feature-icon {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.feature-title {
+  font-size: 1rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  color: var(--color-text);
+}
+
+.feature-desc {
+  font-size: 0.875rem;
+  color: var(--color-gray-500);
+  line-height: 1.5;
+  margin: 0;
+}
+
+@media (max-width: 768px) {
+  .feature-cards {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .feature-cards {
+    grid-template-columns: 1fr;
   }
 }

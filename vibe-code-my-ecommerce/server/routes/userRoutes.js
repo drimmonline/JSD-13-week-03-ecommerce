@@ -10,11 +10,12 @@ import {
   updateUserPatch,
   loginUsers,
 } from "../controllers/userController.js";
+import { protectRoute, adminOnly } from "../middlewares/authMiddleware.js";
 
 // 💡 ปรับเปลี่ยนชื่อตัวแปรตรงนี้ให้กลายเป็น userRouter ให้สอดคล้องกันทั้งหมดครับ
 const userRouter = express.Router();
 
-userRouter.get("/", getAllUsers);
+userRouter.get("/", protectRoute, adminOnly, getAllUsers);  // 🛡️ ดูผู้ใช้ทั้งหมด (Admin)
 userRouter.get("/:id", getUserById);
 userRouter.post("/", createUser);
 userRouter.put("/:id", updateUserPut);

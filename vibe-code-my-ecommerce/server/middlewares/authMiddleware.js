@@ -27,3 +27,11 @@ export const protectRoute = (request, response, next) => {
     return response.status(403).json({ msg: "Token ไม่ถูกต้องหรือหมดอายุ" });
   }
 };
+
+// 🛡️ Middleware ตรวจสอบสิทธิ์ Admin (ต้องใช้คู่กับ protectRoute)
+export const adminOnly = (request, response, next) => {
+  if (!request.user || request.user.account_type !== "admin") {
+    return response.status(403).json({ msg: "ไม่มีสิทธิ์เข้าถึง เฉพาะ Admin เท่านั้น" });
+  }
+  next();
+};

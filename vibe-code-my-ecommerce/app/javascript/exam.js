@@ -47,10 +47,13 @@ async function fetchMyExamHistory(examId = null) {
 }
 
 // ===== ส่งคำตอบ =====
+// ===== ส่งคำตอบ (แก้ไขโครงสร้างการส่งให้ถูกต้องแม่นยำ) =====
 async function submitExamAnswers() {
   const { exam, answers, startTime } = examState;
   const timeSpent = Math.floor((Date.now() - startTime) / 1000);
 
+  // 🛠️ Backend คาดหมาย answers เป็น Object { [questionId]: selectedOptionId }
+  //    ไม่ใช่ Array — ส่งตรงจาก examState.answers เลย
   const response = await fetch(`${API_BASE}/exams/submit`, {
     method: "POST",
     headers: {
@@ -286,16 +289,26 @@ function showExamDetailModal(exam, history, examId) {
   modal.style.display = "flex";
 
   // ปิด modal
-  const closeModal = () => { modal.style.display = "none"; };
-  document.getElementById("exam-modal-close").addEventListener("click", closeModal);
-  document.getElementById("exam-modal-cancel").addEventListener("click", closeModal);
-  modal.addEventListener("click", (e) => { if (e.target === modal) closeModal(); });
+  const closeModal = () => {
+    modal.style.display = "none";
+  };
+  document
+    .getElementById("exam-modal-close")
+    .addEventListener("click", closeModal);
+  document
+    .getElementById("exam-modal-cancel")
+    .addEventListener("click", closeModal);
+  modal.addEventListener("click", (e) => {
+    if (e.target === modal) closeModal();
+  });
 
   // ยืนยัน -> ไปหน้าห้องสอบ
-  document.getElementById("exam-modal-confirm").addEventListener("click", () => {
-    modal.style.display = "none";
-    window.location.href = `exam-room.html?exam_id=${encodeURIComponent(examId)}`;
-  });
+  document
+    .getElementById("exam-modal-confirm")
+    .addEventListener("click", () => {
+      modal.style.display = "none";
+      window.location.href = `exam-room.html?exam_id=${encodeURIComponent(examId)}`;
+    });
 }
 
 // ===========================================
@@ -400,22 +413,29 @@ function renderQuiz() {
     <div class="question-text">${question.question_text}</div>
     <div class="options-list">
       ${question.options
-        .map((opt) => {
+        .map((opt, oi) => {
           const isSelected = answers[question._id] === opt._id;
+          // 🛠️ correct_option_id เป็นตัวอักษร A/B/C/D -> แปลงเป็น index เพื่อเทียบกับตำแหน่ง option
+          const correctIndex = question.correct_option_id
+            ? question.correct_option_id.charCodeAt(0) - 65
+            : -1;
+          const isCorrectOpt = oi === correctIndex;
+
           let extraClass = "";
           if (isSubmitted && isSelected) {
-            extraClass =
-              opt._id === question.correct_option_id ? "correct" : "incorrect";
+            extraClass = isCorrectOpt ? "correct" : "incorrect";
           } else if (isSubmitted) {
-            if (opt._id === question.correct_option_id) extraClass = "correct";
+            if (isCorrectOpt) extraClass = "correct";
           } else if (isSelected) {
             extraClass = "selected";
           }
 
+          // 🛠️ ใช้ option_text หรือ text ก็ได้ รองรับทั้งสองรูปแบบจาก API
+          const optLabel = opt.option_text || opt.text || "ไม่มีข้อความ";
           return `
           <div class="option-item ${extraClass}" data-q-id="${question._id}" data-opt-id="${opt._id}">
             <div class="option-radio"></div>
-            <span>${opt.text}</span>
+            <span>${optLabel}</span>
           </div>`;
         })
         .join("")}
@@ -570,8 +590,12 @@ function showLeaveConfirmModal(targetUrl) {
     </div>`;
   document.body.appendChild(modal);
 
-  document.getElementById("leave-cancel").addEventListener("click", () => modal.remove());
-  modal.addEventListener("click", (e) => { if (e.target === modal) modal.remove(); });
+  document
+    .getElementById("leave-cancel")
+    .addEventListener("click", () => modal.remove());
+  modal.addEventListener("click", (e) => {
+    if (e.target === modal) modal.remove();
+  });
   document.getElementById("leave-confirm").addEventListener("click", () => {
     examState.isSubmitted = true;
     stopTimer();
@@ -643,6 +667,7 @@ function renderResult(result) {
       <div class="quiz-result-answers">
   `;
 
+  // ===== แก้ไขเฉพาะช่วง render ตัวเลือกในฟังก์ชัน renderResult =====
   result.answer_details.forEach((detail, i) => {
     html += `
       <div class="result-question">
@@ -655,15 +680,32 @@ function renderResult(result) {
         <div class="question-text" style="font-size:0.9375rem; margin-bottom:0.75rem;">${detail.question_text}</div>
         <div class="options-list" style="pointer-events:none;">
           ${detail.options
-            .map((opt) => {
+            .map((opt, oi) => {
               let cls = "";
-              if (opt._id === detail.correct_answer) cls = "correct";
-              else if (opt._id === detail.user_answer && !detail.is_correct)
+
+              // 🛠️ correct_answer เป็นตัวอักษร A/B/C/D -> แปลงเป็น index เพื่อเทียบกับตำแหน่ง option
+              const correctIndex = detail.correct_answer
+                ? String(detail.correct_answer).trim().charCodeAt(0) - 65
+                : -1;
+              const isCorrectOpt = oi === correctIndex;
+
+              // 🛠️ user_answer เก็บเป็น UUID -> เทียบกับ opt._id
+              const currentOptId = String(opt._id).trim();
+              const userAnsId = detail.user_answer
+                ? String(detail.user_answer).trim()
+                : "";
+
+              if (isCorrectOpt) {
+                cls = "correct";
+              } else if (currentOptId === userAnsId && !detail.is_correct) {
                 cls = "incorrect";
+              }
+
+              const optLabel = opt.text || opt.option_text || "ไม่มีข้อความคำตอบ";
               return `
                 <div class="option-item ${cls}">
                   <div class="option-radio"></div>
-                  <span>${opt.text}</span>
+                  <span>${optLabel}</span>
                 </div>`;
             })
             .join("")}

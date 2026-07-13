@@ -155,12 +155,13 @@ function setupNavbar() {
     authNav.innerHTML = `
       <div class="user-menu">
         <button class="btn btn-sm btn-outline" id="user-menu-btn">
-          ${user?.username || user?.userId?.slice(0, 6) || "ผู้ใช้"}
+          ${user?.username || "ผู้ใช้"}
         </button>
         <div class="user-dropdown" id="user-dropdown">
           <a href="cart.html">ตะกร้าสินค้า</a>
           <a href="order-history.html">ประวัติสั่งซื้อ</a>
           <a href="exam-list.html">ทำข้อสอบ</a>
+          ${user?.account_type === "admin" ? '<a href="admin.html">จัดการระบบ</a>' : ""}
           <button id="logout-btn">ออกจากระบบ</button>
         </div>
       </div>
@@ -307,9 +308,9 @@ async function handleRegister(e) {
     await loginUser(username, password);
     await syncGuestCartToServer();
 
-    // 🛠️ ปรับปรุง: หน่วงเวลาเสี้ยววินาทีเพื่อให้ข้อมูลลง localStorage ครบถ้วนก่อนย้ายหน้า ยับยั้งบั๊ก 403
+    // สมัครสำเร็จ → กลับหน้าแรก
     setTimeout(() => {
-      window.location.replace(getRedirectAfterLogin());
+      window.location.replace("index.html");
     }, 50);
   } catch (err) {
     if (errorEl) {

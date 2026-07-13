@@ -63,7 +63,7 @@ function renderProducts(products, containerId = "product-grid") {
           <img src="${p.product_image || ""}" alt="${p.product_name || ""}" class="product-card-image" loading="lazy" />
           <div class="product-card-body">
             <div class="product-card-tags">
-              ${getCategoryTag(p.product_name || "")}
+              <span class="badge-tag">#${p.category || "ทั่วไป"}</span>
             </div>
             <h3 class="product-card-title">${p.product_name || "ไม่มีชื่อสินค้า"}</h3>
             <p class="product-card-desc">${p.product_detail || ""}</p>

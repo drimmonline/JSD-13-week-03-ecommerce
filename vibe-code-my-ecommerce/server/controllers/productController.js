@@ -1,8 +1,46 @@
 import { request } from "express";
 import Product from "../models/products.js"; // 🎯 ใส่ .js ปิดท้ายเส้นทาง
+import Order from "../models/orders.js";
 import { v4 as uuidv4 } from "uuid"; // (เก็บไว้รอใช้ในฟังก์ชัน createProduct ได้เลย)
 
 // 💡 บรรทัดแรกสุดของ express ลบทิ้งไปเรียบร้อยแล้วครับ
+
+// 🛠️ ดึงสินค้าขายดี (นับจำนวนขายจาก orders)
+export const getBestSellingProducts = async (request, response) => {
+  try {
+    // ดึงออเดอร์ที่ชำระแล้ว (paid / shipped / delivered)
+    const orders = await Order.find({
+      order_status: { $in: ["paid", "shipped", "delivered"] },
+    });
+
+    // นับจำนวนขายแต่ละ product_id
+    const salesMap = {};
+    orders.forEach((order) => {
+      (order.order_details || []).forEach((item) => {
+        const pid = item.product_id;
+        if (!salesMap[pid]) salesMap[pid] = 0;
+        salesMap[pid] += item.quantity;
+      });
+    });
+
+    // เรียงลำดับจากขายมากไปน้อย
+    const sortedIds = Object.entries(salesMap)
+      .sort((a, b) => b[1] - a[1])
+      .map(([id]) => id);
+
+    // ดึงข้อมูลสินค้าจริงจาก DB
+    const products = await Product.find({ _id: { $in: sortedIds.length > 0 ? sortedIds : ["__none__"] } });
+
+    // เรียงตามลำดับขายดี
+    const productMap = {};
+    products.forEach((p) => { productMap[p._id] = p; });
+    const sorted = sortedIds.map((id) => productMap[id]).filter(Boolean);
+
+    return response.json(sorted);
+  } catch (err) {
+    return response.status(500).json({ msg: `ดึงสินค้าขายดีไม่สำเร็จ: ${err.message}` });
+  }
+};
 
 export const getAllProduct = async (request, response) => {
   try {
@@ -57,9 +95,10 @@ export const updateProductPut = async (request, response) => {
     const productId = request.params.id;
     const newData = request.body;
 
-    const updatedProduct = await Product.findOneAndReplace(
+    // 🛠️ ใช้ $set แทน findOneAndReplace เพื่อรักษา _id และ timestamps ไว้
+    const updatedProduct = await Product.findOneAndUpdate(
       { _id: productId },
-      newData,
+      { $set: newData },
       { returnDocument: "after" },
     );
 

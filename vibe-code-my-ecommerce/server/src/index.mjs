@@ -61,6 +61,8 @@ app.use(
     },
   }),
 );
+app.use(express.json({ limit: "50mb" }));
+app.use(express.urlencoded({ limit: "50mb", extended: true }));
 
 // Rate Limiting: จำกัดจำนวนคำขอต่อ IP (ป้องกัน DDoS)
 const limiter = rateLimit({
