@@ -107,12 +107,21 @@ async function syncGuestCartToServer() {
 }
 
 // ===== ตรวจสอบสิทธิ์ก่อนเข้าหน้าที่ต้องล็อกอิน =====
+// บันทึก URL ที่ต้องการเข้าก่อน redirect ไปหน้า login
 function requireAuth() {
-  if (!isLoggedIn()) {
-    window.location.href = "auth.html";
+  // 🛠️ เปลี่ยนมาเช็คคีย์ "accessToken" ให้ตรงกับในระบบ
+  if (!localStorage.getItem("accessToken")) {
+    window.location.href = "index.html";
     return false;
   }
   return true;
+}
+
+// ===== ดึง URL ที่บันทึกไว้หลัง login สำเร็จ =====
+function getRedirectAfterLogin() {
+  const url = localStorage.getItem("redirectAfterLogin");
+  localStorage.removeItem("redirectAfterLogin");
+  return url || "index.html";
 }
 
 // ===== ดึงข้อมูลผู้ใช้ปัจจุบันจาก API =====
@@ -132,17 +141,25 @@ async function getCurrentUserProfile() {
 // ===== ตั้งค่า Navbar ตามสถานะล็อกอิน =====
 function setupNavbar() {
   const authNav = document.getElementById("auth-nav");
+
   if (!authNav) return;
 
-  if (isLoggedIn()) {
-    const user = getUser();
+  // 🛠️ แก้ไขตรงนี้: เปลี่ยนมาเช็ค accessToken ใน localStorage ตรงๆ
+  const token = localStorage.getItem("accessToken");
+
+  if (token) {
+    // 🛠️ แก้ไขตรงนี้: ดึงข้อมูล user จาก localStorage มา parse เป็น object
+    const userStr = localStorage.getItem("user");
+    const user = userStr ? JSON.parse(userStr) : null;
+
     authNav.innerHTML = `
       <div class="user-menu">
         <button class="btn btn-sm btn-outline" id="user-menu-btn">
-          ${user?.username || "ผู้ใช้"}
+          ${user?.username || user?.userId?.slice(0, 6) || "ผู้ใช้"}
         </button>
         <div class="user-dropdown" id="user-dropdown">
           <a href="cart.html">ตะกร้าสินค้า</a>
+          <a href="order-history.html">ประวัติสั่งซื้อ</a>
           <a href="exam-list.html">ทำข้อสอบ</a>
           <button id="logout-btn">ออกจากระบบ</button>
         </div>
@@ -160,7 +177,6 @@ function setupNavbar() {
     `;
   }
 }
-
 function toggleUserDropdown() {
   const dropdown = document.getElementById("user-dropdown");
   if (dropdown) {
@@ -243,7 +259,8 @@ async function handleLogin(e) {
     await syncGuestCartToServer();
 
     // 🛠️ ปรับปรุง: ใช้ replace เพื่อล้าง State และรอยต่อหน้าเว็บให้สะอาดคมชัด
-    window.location.replace("index.html");
+    // ไปยังหน้าที่บันทึกไว้ก่อน login (เช่น ประวัติสั่งซื้อ)
+    window.location.replace(getRedirectAfterLogin());
   } catch (err) {
     if (errorEl) {
       errorEl.textContent = err.message;
@@ -292,7 +309,7 @@ async function handleRegister(e) {
 
     // 🛠️ ปรับปรุง: หน่วงเวลาเสี้ยววินาทีเพื่อให้ข้อมูลลง localStorage ครบถ้วนก่อนย้ายหน้า ยับยั้งบั๊ก 403
     setTimeout(() => {
-      window.location.replace("index.html");
+      window.location.replace(getRedirectAfterLogin());
     }, 50);
   } catch (err) {
     if (errorEl) {

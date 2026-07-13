@@ -46,9 +46,11 @@ async function loadFeaturedExams() {
 
 document.addEventListener("DOMContentLoaded", () => {
   // 📌 ตั้งค่า Navbar และ Cart Badge สำหรับหน้าแรก
-  // (product.js initProductPage จะ return early เพราะไม่มี #product-grid)
   setupNavbar();
   updateCartCount();
+
+  // 📌 เปิดระบบดักฟังปุ่ม "เพิ่มลงตะกร้า" สำหรับหน้าแรก
+  setupProductEvents();
 
   loadFeaturedProducts();
   loadFeaturedExams();

@@ -220,7 +220,7 @@ function renderExamList(exams, historyMap = {}) {
     .join("");
 }
 
-// ===== เริ่มทำข้อสอบ =====
+// ===== เริ่มทำข้อสอบ (แสดง modal รายละเอียดก่อน) =====
 async function startExam(examId) {
   if (!isLoggedIn()) {
     window.location.href = "auth.html";
@@ -233,23 +233,69 @@ async function startExam(examId) {
   }
 
   try {
+    // ดึงข้อมูลข้อสอบ + ประวัติการทำ
     const exam = await fetchExamById(examId);
-    examState = {
-      exam,
-      answers: {},
-      currentIndex: 0,
-      timeLeft: exam.time_limit_minutes * 60,
-      timerInterval: null,
-      isSubmitted: false,
-      result: null,
-      startTime: Date.now(),
-    };
+    let history = null;
+    if (isLoggedIn()) {
+      const historyArr = await fetchMyExamHistory(examId);
+      if (historyArr.length > 0) history = historyArr[0];
+    }
 
-    // 🛠️ ปรับปรุง: ใช้ encodeURIComponent เพื่อควบคุมอักขระรอยต่อให้ปลอดภัยก่อนส่งไปห้องสอบ
-    window.location.href = `exam-room.html?exam_id=${encodeURIComponent(examId)}`;
+    showExamDetailModal(exam, history, examId);
   } catch (err) {
     alert(err.message);
   }
+}
+
+// ===== แสดง Modal รายละเอียดข้อสอบ =====
+function showExamDetailModal(exam, history, examId) {
+  const modal = document.getElementById("exam-detail-modal");
+  const body = document.getElementById("exam-modal-body");
+  if (!modal || !body) return;
+
+  const historyHTML = history
+    ? `
+    <div class="exam-card-history" style="margin-bottom:0;">
+      <strong>ประวัติการทำ:</strong><br/>
+      คะแนน ${history.score}% (${history.correct_count}/${history.total_questions} ข้อ)<br/>
+      เวลาที่ใช้: ${Math.floor(history.time_spent_seconds / 60)} นาที ${history.time_spent_seconds % 60} วินาที<br/>
+      วันที่ทำ: ${new Date(history.completed_at).toLocaleDateString("th-TH", { year: "numeric", month: "long", day: "numeric" })}
+    </div>`
+    : `<div style="font-size:0.8rem; color:var(--color-gray-500); margin-bottom:0;">ยังไม่เคยทำข้อสอบชุดนี้</div>`;
+
+  body.innerHTML = `
+    <div style="margin-bottom:1.5rem;">
+      <div style="font-size:0.625rem; font-weight:600; text-transform:uppercase; letter-spacing:0.05em; color:var(--color-gray-500); margin-bottom:0.5rem;">
+        ${exam.category || "ทั่วไป"}
+      </div>
+      <h2 style="font-size:1.25rem; font-weight:700; margin-bottom:0.5rem;">${exam.exam_name}</h2>
+      <p style="font-size:0.875rem; color:var(--color-gray-500); line-height:1.6; margin-bottom:1rem;">
+        ${exam.description || "ไม่มีรายละเอียด"}
+      </p>
+      <div style="display:flex; gap:1.5rem; font-size:0.8rem; color:var(--color-gray-600); margin-bottom:1rem;">
+        <span>📝 ${exam.question_count || 0} ข้อ</span>
+        <span>⏱ ${exam.time_limit_minutes || 0} นาที</span>
+      </div>
+      ${historyHTML}
+    </div>
+    <div style="display:flex; gap:0.75rem;">
+      <button class="btn btn-outline" id="exam-modal-cancel" style="flex:1;">ยกเลิก</button>
+      <button class="btn btn-primary" id="exam-modal-confirm" style="flex:1;">ยืนยันทำข้อสอบ</button>
+    </div>`;
+
+  modal.style.display = "flex";
+
+  // ปิด modal
+  const closeModal = () => { modal.style.display = "none"; };
+  document.getElementById("exam-modal-close").addEventListener("click", closeModal);
+  document.getElementById("exam-modal-cancel").addEventListener("click", closeModal);
+  modal.addEventListener("click", (e) => { if (e.target === modal) closeModal(); });
+
+  // ยืนยัน -> ไปหน้าห้องสอบ
+  document.getElementById("exam-modal-confirm").addEventListener("click", () => {
+    modal.style.display = "none";
+    window.location.href = `exam-room.html?exam_id=${encodeURIComponent(examId)}`;
+  });
 }
 
 // ===========================================
@@ -287,6 +333,9 @@ async function initExamRoomPage() {
     setupExamRoomEvents();
     renderQuiz();
     startTimer();
+
+    // 📌 แจ้งเตือนเมื่อผู้ใช้พยายามออกจากหน้า (ปิดแท็บ / refresh / กดลิงก์)
+    setupLeaveWarning();
   } catch (err) {
     document.getElementById("quiz-content").innerHTML =
       `<div style="text-align:center; padding:2rem; color:var(--color-error);">${err.message}</div>`;
@@ -469,6 +518,65 @@ function stopTimer() {
     clearInterval(examState.timerInterval);
     examState.timerInterval = null;
   }
+}
+
+// ===== แจ้งเตือนเมื่อพยายามออกจากหน้าทำข้อสอบ =====
+function setupLeaveWarning() {
+  // 1. beforeunload: ปิดแท็บ / refresh / พิมพ์ URL ใหม่
+  window.addEventListener("beforeunload", (e) => {
+    if (examState.isSubmitted) return;
+    e.preventDefault();
+    e.returnValue = "";
+  });
+
+  // 2. ดักลิงก์ในหน้า (เช่น ปุ่ม "← กลับ" ใน Navbar)
+  document.addEventListener("click", (e) => {
+    if (examState.isSubmitted) return;
+    const link = e.target.closest("a[href]");
+    if (!link) return;
+    // ไม่ดักลิงก์ภายใน exam-room เอง
+    if (link.closest("#quiz-content")) return;
+    e.preventDefault();
+    showLeaveConfirmModal(link.href);
+  });
+
+  // 3. ดัก popstate (ปุ่ม Back ของเบราว์เซอร์)
+  window.addEventListener("popstate", (e) => {
+    if (examState.isSubmitted) return;
+    history.pushState(null, "", location.href);
+    showLeaveConfirmModal("exam-list.html");
+  });
+  history.pushState(null, "", location.href);
+}
+
+// ===== Modal ยืนยันออกจากหน้าข้อสอบ =====
+function showLeaveConfirmModal(targetUrl) {
+  const existing = document.getElementById("leave-confirm-modal");
+  if (existing) existing.remove();
+
+  const modal = document.createElement("div");
+  modal.id = "leave-confirm-modal";
+  modal.className = "modal-backdrop";
+  modal.innerHTML = `
+    <div class="modal-content" style="position:relative; max-width:400px; text-align:center;">
+      <h3 style="font-size:1.125rem; font-weight:700; margin-bottom:0.75rem;">คุณกำลังทำข้อสอบอยู่</h3>
+      <p style="font-size:0.875rem; color:var(--color-gray-500); margin-bottom:1.5rem; line-height:1.6;">
+        ถ้าออกจากหน้านี้ คำตอบจะ<strong>ไม่ถูกบันทึก</strong><br/>ต้องการออกหรือไม่?
+      </p>
+      <div style="display:flex; gap:0.75rem;">
+        <button class="btn btn-outline" id="leave-cancel" style="flex:1;">ยกเลิก</button>
+        <button class="btn btn-primary" id="leave-confirm" style="flex:1;">ตกลง</button>
+      </div>
+    </div>`;
+  document.body.appendChild(modal);
+
+  document.getElementById("leave-cancel").addEventListener("click", () => modal.remove());
+  modal.addEventListener("click", (e) => { if (e.target === modal) modal.remove(); });
+  document.getElementById("leave-confirm").addEventListener("click", () => {
+    examState.isSubmitted = true;
+    stopTimer();
+    window.location.href = targetUrl;
+  });
 }
 
 // ===== ส่งข้อสอบ =====

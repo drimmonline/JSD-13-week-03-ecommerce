@@ -229,42 +229,43 @@ function animateAddToCart(btn, productId) {
   }, 1200);
 }
 
-// ===== 🛠️ แก้ไขจุดบกพร่อง: อัปเดต Badge จำนวนในตะกร้าแบบปลอดภัย ดักจับ 403 =====
+// ===== อัปเดต Badge จำนวนในตะกร้า =====
 async function updateCartCount() {
   const badge = document.getElementById("cart-count");
   if (!badge) return;
 
   const token = safeGetToken();
+  let count = 0;
 
-  // ถ้าไม่ได้ล็อกอิน หรือไม่มี Token ให้ดึงแค่ Guest Cart
   if (!safeIsLoggedIn() || !token) {
-    badge.textContent = getGuestCartCount();
-    return;
+    count = getGuestCartCount();
+  } else {
+    try {
+      const response = await fetch(`${API_BASE}/carts`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      if (response.status === 403 || response.status === 401 || !response.ok) {
+        count = getGuestCartCount();
+      } else {
+        const cart = await response.json();
+        const serverCount = cart.items
+          ? cart.items.reduce((sum, item) => sum + item.quantity, 0)
+          : 0;
+        count = serverCount + getGuestCartCount();
+      }
+    } catch {
+      count = getGuestCartCount();
+    }
   }
 
-  try {
-    const response = await fetch(`${API_BASE}/carts`, {
-      headers: { Authorization: `Bearer ${token}` },
-    });
-
-    // 🛠️ ถ้าเกิดข้อผิดพลาดด้านสิทธิ์ (403/401) ให้ดัก fallback กลับไปโชว์แค่ของฝั่ง Guest แทนที่จะพ่น Error
-    if (response.status === 403 || response.status === 401) {
-      badge.textContent = getGuestCartCount();
-      return;
-    }
-
-    if (!response.ok) {
-      badge.textContent = getGuestCartCount();
-      return;
-    }
-
-    const cart = await response.json();
-    const serverCount = cart.items
-      ? cart.items.reduce((sum, item) => sum + item.quantity, 0)
-      : 0;
-    badge.textContent = serverCount + getGuestCartCount();
-  } catch {
-    badge.textContent = getGuestCartCount();
+  // 📌 ซ่อน badge เมื่อไม่มีสินค้า แสดงเลขเมื่อมีสินค้า
+  if (count > 0) {
+    badge.textContent = count;
+    badge.style.display = "";
+  } else {
+    badge.textContent = "";
+    badge.style.display = "none";
   }
 }
 
@@ -555,16 +556,19 @@ let currentSort = "newest";
 let currentPage = 1;
 
 function setupProductEvents() {
-  const grid = document.getElementById("product-grid");
-  if (grid) {
-    grid.addEventListener("click", (e) => {
-      const targetBtn = e.target.closest(".btn-add-to-cart");
-      if (targetBtn) {
-        const productId = targetBtn.getAttribute("data-id");
-        handleAddToCart(productId);
-      }
-    });
-  }
+  // 📌 ดักการคลิกปุ่ม "เพิ่มลงตะกร้า" ในทุก Grid (ใช้ได้ทั้ง product.html และ index.html)
+  ["product-grid", "featured-products"].forEach((containerId) => {
+    const container = document.getElementById(containerId);
+    if (container) {
+      container.addEventListener("click", (e) => {
+        const targetBtn = e.target.closest(".btn-add-to-cart");
+        if (targetBtn) {
+          const productId = targetBtn.getAttribute("data-id");
+          handleAddToCart(productId);
+        }
+      });
+    }
+  });
 
   const paginationContainer = document.getElementById("pagination");
   if (paginationContainer) {

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ประวัติสั่งซื้อ | StudySheet</title>
+  <link rel="stylesheet" href="css/global.css" />
+  <link rel="stylesheet" href="css/products.css" />
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="container">
+      <a href="index.html" class="navbar-brand">StudySheet</a>
+      <ul class="navbar-nav">
+        <li><a href="index.html">หน้าแรก</a></li>
+        <li><a href="product.html">ชีทสรุปทั้งหมด</a></li>
+        <li><a href="exam-list.html">ทำข้อสอบ</a></li>
+      </ul>
+      <div class="navbar-actions">
+        <div class="cart-dropdown-wrapper">
+          <div class="cart-badge cart-toggle">🛒 <span class="badge" id="cart-count"></span></div>
+          <div class="cart-dropdown" id="cart-dropdown"></div>
+        </div>
+        <div id="auth-nav"></div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Order History -->
+  <div class="order-history-container">
+    <div class="order-history-header">
+      <h1>ประวัติสั่งซื้อ</h1>
+      <p>รายการสั่งซื้อทั้งหมดของคุณ</p>
+    </div>
+
+    <!-- Order List -->
+    <div id="order-list">
+      <div class="loading-overlay">
+        <span class="spinner"></span> กำลังโหลด...
+      </div>
+    </div>
+  </div>
+
+  <!-- 📌 Modal แสดงรายละเอียดออเดอร์ -->
+  <div class="modal-backdrop" id="order-detail-modal" style="display:none;">
+    <div class="modal-content" style="position:relative; max-width:520px;">
+      <button class="modal-close" id="order-modal-close" style="position:absolute; top:0.75rem; right:0.75rem; background:none; border:none; font-size:1.25rem; cursor:pointer;">✕</button>
+      <div id="order-modal-body"></div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <p>StudySheet © 2026</p>
+    </div>
+  </footer>
+
+  <script src="javascript/auth.js"></script>
+  <script src="javascript/product.js"></script>
+  <script src="javascript/order.js"></script>
+</body>
+</html>

@@ -62,6 +62,9 @@
   border: 1px solid var(--color-border-light);
   padding: 1.5rem;
   transition: border-color 0.15s;
+  /* 📌 Flexbox ทำให้การ์ดทุกใบสูงเท่ากันในแถวเดียวกัน */
+  display: flex;
+  flex-direction: column;
 }
 
 .exam-card:hover {
@@ -109,6 +112,13 @@
   padding: 0.5rem;
   background-color: var(--color-gray-100);
   margin-bottom: 1rem;
+}
+
+/* 📌 ปุ่ม "เริ่มทำข้อสอบ" / "ดูรายละเอียด" ชิดล่างการ์ดเสมอ
+   ไม่ว่าเนื้อหา description หรือ history จะสั้นหรือยาวแค่ไหน */
+.exam-card > .btn,
+.exam-card > .btn-start-exam {
+  margin-top: auto;
 }
 
 /* ===== Quiz Room Layout ===== */

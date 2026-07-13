@@ -20,7 +20,7 @@
       </ul>
       <div class="navbar-actions">
         <div class="cart-dropdown-wrapper">
-          <div class="cart-badge cart-toggle">🛒 <span class="badge" id="cart-count">0</span></div>
+          <div class="cart-badge cart-toggle">🛒 <span class="badge" id="cart-count"></span></div>
           <div class="cart-dropdown" id="cart-dropdown"></div>
         </div>
         <div id="auth-nav"></div>
@@ -52,6 +52,14 @@
       <p>StudySheet © 2026</p>
     </div>
   </footer>
+
+  <!-- 📌 Modal แสดงรายละเอียดข้อสอบก่อนเริ่มทำ -->
+  <div class="modal-backdrop" id="exam-detail-modal" style="display:none;">
+    <div class="modal-content" style="position:relative; max-width:520px;">
+      <button class="modal-close" id="exam-modal-close" style="position:absolute; top:0.75rem; right:0.75rem; background:none; border:none; font-size:1.25rem; cursor:pointer;">✕</button>
+      <div id="exam-modal-body"></div>
+    </div>
+  </div>
 
   <script src="javascript/auth.js"></script>
   <script src="javascript/product.js"></script>

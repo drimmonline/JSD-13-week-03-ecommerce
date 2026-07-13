@@ -40,6 +40,13 @@ app.use(
   }),
 );
 
+app.use((req, res, next) => {
+  res.setHeader(
+    "Content-Security-Policy",
+    "img-src 'self' data: https://storage.googleapis.com https://encrypted-tbn0.gstatic.com;", // 👈 เพิ่มต่อท้ายตรงนี้
+  );
+  next();
+});
 // เพิ่ม Security Headers ด้วย Helmet
 app.use(
   helmet({
@@ -47,7 +54,7 @@ app.use(
       directives: {
         defaultSrc: ["'self'"],
         // เพิ่มโดเมน https://storage.googleapis.com เข้าไปใน imgSrc
-        imgSrc: ["'self'", "data:", "https://storage.googleapis.com"],
+        imgSrc: ["'self'", "data:", "*"],
         scriptSrc: ["'self'", "'unsafe-inline'"],
         styleSrc: ["'self'", "'unsafe-inline'"],
       },
