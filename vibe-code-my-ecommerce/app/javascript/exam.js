@@ -604,27 +604,56 @@ function showLeaveConfirmModal(targetUrl) {
 }
 
 // ===== ส่งข้อสอบ =====
-async function confirmSubmit() {
+function confirmSubmit() {
   const unanswered =
     examState.exam.questions.length - Object.keys(examState.answers).length;
+
+  const modal = document.getElementById("submit-modal");
+  const icon = document.getElementById("submit-modal-icon");
+  const title = document.getElementById("submit-modal-title");
+  const message = document.getElementById("submit-modal-message");
+
   if (unanswered > 0) {
-    if (
-      !confirm(
-        `ยังมี ${unanswered} ข้อที่ยังไม่ได้ตอบ ต้องการส่งข้อสอบหรือไม่?`,
-      )
-    ) {
-      return;
-    }
+    icon.textContent = "⚠️";
+    title.textContent = "คุณยังทำไม่ครบ";
+    message.innerHTML = `ยังมี <strong>${unanswered} ข้อ</strong> ที่ยังไม่ได้ตอบ<br/>ต้องการจะส่งข้อสอบใช่ไหม?`;
   } else {
-    if (!confirm("ต้องการส่งข้อสอบหรือไม่?")) return;
+    icon.textContent = "📝";
+    title.textContent = "ยืนยันส่งข้อสอบ";
+    message.textContent = "ตอบครบทุกข้อแล้ว ต้องการส่งข้อสอบหรือไม่?";
   }
 
-  await doSubmit();
+  modal.style.display = "flex";
+
+  const closeModal = () => { modal.style.display = "none"; };
+  document.getElementById("submit-modal-close").onclick = closeModal;
+  document.getElementById("submit-modal-cancel").onclick = closeModal;
+  modal.addEventListener("click", (e) => { if (e.target === modal) closeModal(); }, { once: true });
+  document.getElementById("submit-modal-confirm").onclick = async () => {
+    closeModal();
+    await doSubmit();
+  };
 }
 
 async function autoSubmit() {
-  alert("หมดเวลา! ระบบจะส่งข้อสอบโดยอัตโนมัติ");
-  await doSubmit();
+  const modal = document.getElementById("submit-modal");
+  const icon = document.getElementById("submit-modal-icon");
+  const title = document.getElementById("submit-modal-title");
+  const message = document.getElementById("submit-modal-message");
+
+  icon.textContent = "⏰";
+  title.textContent = "หมดเวลา!";
+  message.textContent = "ระบบจะส่งข้อสอบโดยอัตโนมัติ";
+  document.getElementById("submit-modal-cancel").style.display = "none";
+  document.getElementById("submit-modal-confirm").textContent = "ตกลง";
+  modal.style.display = "flex";
+
+  document.getElementById("submit-modal-confirm").onclick = async () => {
+    modal.style.display = "none";
+    document.getElementById("submit-modal-cancel").style.display = "";
+    document.getElementById("submit-modal-confirm").textContent = "ส่งข้อสอบ";
+    await doSubmit();
+  };
 }
 
 async function doSubmit() {
@@ -636,8 +665,25 @@ async function doSubmit() {
     examState.result = result;
     renderResult(result);
   } catch (err) {
-    alert(err.message);
-    startTimer();
+    // 🛠️ แสดง error ใน modal แทน alert
+    const modal = document.getElementById("submit-modal");
+    const icon = document.getElementById("submit-modal-icon");
+    const title = document.getElementById("submit-modal-title");
+    const message = document.getElementById("submit-modal-message");
+
+    icon.textContent = "❌";
+    title.textContent = "ส่งข้อสอบไม่สำเร็จ";
+    message.textContent = err.message;
+    document.getElementById("submit-modal-cancel").style.display = "none";
+    document.getElementById("submit-modal-confirm").textContent = "ตกลง";
+    modal.style.display = "flex";
+
+    document.getElementById("submit-modal-confirm").onclick = () => {
+      modal.style.display = "none";
+      document.getElementById("submit-modal-cancel").style.display = "";
+      document.getElementById("submit-modal-confirm").textContent = "ส่งข้อสอบ";
+      startTimer();
+    };
   }
 }
 

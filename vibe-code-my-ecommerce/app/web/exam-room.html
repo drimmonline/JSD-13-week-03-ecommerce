@@ -55,6 +55,20 @@
     </div>
   </div>
 
+  <!-- Modal: ยืนยันส่งข้อสอบ -->
+  <div class="modal-backdrop" id="submit-modal" style="display:none;">
+    <div class="modal-content" style="position:relative; max-width:420px; text-align:center;">
+      <button class="modal-close" id="submit-modal-close">✕</button>
+      <div id="submit-modal-icon" style="font-size:2.5rem; margin-bottom:1rem;">📝</div>
+      <h3 id="submit-modal-title" style="font-size:1.125rem; font-weight:700; margin-bottom:0.75rem;">ยืนยันส่งข้อสอบ</h3>
+      <p id="submit-modal-message" style="font-size:0.875rem; color:var(--color-gray-500); margin-bottom:1.5rem; line-height:1.6;"></p>
+      <div style="display:flex; gap:0.75rem;">
+        <button class="btn btn-outline" id="submit-modal-cancel" style="flex:1;">ยกเลิก</button>
+        <button class="btn btn-primary" id="submit-modal-confirm" style="flex:1;">ส่งข้อสอบ</button>
+      </div>
+    </div>
+  </div>
+
   <script src="javascript/auth.js"></script>
   <script src="javascript/exam.js"></script>
 </body>
