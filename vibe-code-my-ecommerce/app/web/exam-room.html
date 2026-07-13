@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ทำข้อสอบ | StudySheet</title>
+  <link rel="stylesheet" href="css/global.css" />
+  <link rel="stylesheet" href="css/exam.css" />
+</head>
+<body style="background-color: var(--color-bg);">
+
+  <!-- Navbar (compact) -->
+  <nav class="navbar" style="padding: 0.5rem 1.5rem;">
+    <div class="container">
+      <a href="index.html" class="navbar-brand" style="font-size:1rem;">StudySheet</a>
+      <div class="navbar-actions">
+        <a href="exam-list.html" class="btn btn-sm btn-outline">← กลับ</a>
+        <div id="auth-nav"></div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Quiz Content -->
+  <div id="quiz-content">
+    <div class="quiz-container">
+      <!-- Main Quiz Area -->
+      <div class="quiz-main">
+        <div class="quiz-header">
+          <h1 class="quiz-title" id="quiz-title">กำลังโหลด...</h1>
+          <div class="timer" id="timer">00:00</div>
+        </div>
+
+        <div class="question-area" id="question-area">
+          <div class="loading-overlay">
+            <span class="spinner"></span> กำลังโหลดข้อสอบ...
+          </div>
+        </div>
+
+        <div class="quiz-nav" id="quiz-nav"></div>
+      </div>
+
+      <!-- Sidebar Navigation -->
+      <aside class="quiz-sidebar">
+        <div class="quiz-sidebar-title">หมายเลขข้อสอบ</div>
+        <div class="question-nav-grid" id="question-nav-grid"></div>
+        <div class="quiz-sidebar-legend">
+          <span><div class="legend-dot current"></div> ข้อที่กำลังทำ</span>
+          <span><div class="legend-dot answered"></div> ทำแล้ว</span>
+          <span><div class="legend-dot"></div> ยังไม่ได้ทำ</span>
+        </div>
+        <div class="quiz-sidebar-submit">
+          <button class="btn btn-primary btn-sm btn-submit-quiz" style="width:100%;">ส่งข้อสอบ</button>
+        </div>
+      </aside>
+    </div>
+  </div>
+
+  <script src="javascript/auth.js"></script>
+  <script src="javascript/exam.js"></script>
+</body>
+</html>

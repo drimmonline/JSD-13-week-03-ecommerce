@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>เข้าสู่ระบบ | StudySheet</title>
+  <link rel="stylesheet" href="css/global.css" />
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="container">
+      <a href="index.html" class="navbar-brand">StudySheet</a>
+      <div class="navbar-actions" id="auth-nav">
+        <a href="auth.html" class="btn btn-sm btn-primary">เข้าสู่ระบบ</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Auth Container -->
+  <div class="auth-container">
+    <h1>StudySheet</h1>
+    <p class="subtitle">ชีทสรุปคุณภาพสูง และระบบจำลองข้อสอบอัจฉริยะ</p>
+
+    <!-- Tabs -->
+    <div class="auth-tabs">
+      <button class="auth-tab active" data-tab="login">เข้าสู่ระบบ</button>
+      <button class="auth-tab" data-tab="register">สมัครสมาชิก</button>
+    </div>
+
+    <!-- Login Form -->
+    <div class="auth-form active" id="login-form-container">
+      <form id="login-form">
+        <div id="login-error" class="alert alert-error" style="display:none;"></div>
+        <div class="form-group">
+          <label for="login-username">ชื่อผู้ใช้</label>
+          <input type="text" id="login-username" name="username" class="form-control" placeholder="กรอกชื่อผู้ใช้" required />
+        </div>
+        <div class="form-group">
+          <label for="login-password">รหัสผ่าน</label>
+          <input type="password" id="login-password" name="password" class="form-control" placeholder="กรอกรหัสผ่าน" required />
+        </div>
+        <button type="submit" class="btn btn-primary" style="width:100%; margin-top:0.5rem;">เข้าสู่ระบบ</button>
+      </form>
+    </div>
+
+    <!-- Register Form -->
+    <div class="auth-form" id="register-form-container">
+      <form id="register-form">
+        <div id="register-error" class="alert alert-error" style="display:none;"></div>
+        <div class="form-group">
+          <label for="reg-username">ชื่อผู้ใช้</label>
+          <input type="text" id="reg-username" name="username" class="form-control" placeholder="กรอกชื่อผู้ใช้" required />
+        </div>
+        <div class="form-group">
+          <label for="reg-password">รหัสผ่าน (อย่างน้อย 6 ตัว)</label>
+          <input type="password" id="reg-password" name="password" class="form-control" placeholder="กรอกรหัสผ่าน" required minlength="6" />
+        </div>
+        <div class="form-group">
+          <label for="reg-name">ชื่อ (ไม่บังคับ)</label>
+          <input type="text" id="reg-name" name="name" class="form-control" placeholder="กรอกชื่อ" />
+        </div>
+        <div class="form-group">
+          <label for="reg-email">อีเมล (ไม่บังคับ)</label>
+          <input type="email" id="reg-email" name="email" class="form-control" placeholder="กรอกอีเมล" />
+        </div>
+        <button type="submit" class="btn btn-primary" style="width:100%; margin-top:0.5rem;">สมัครสมาชิก</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- 📌 โหลด auth.js เป็นไฟล์เดียว (ไม่ใช้ inline script ป้องกัน CSP) -->
+  <script src="javascript/auth.js"></script>
+</body>
+</html>

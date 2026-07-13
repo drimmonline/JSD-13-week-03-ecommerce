@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ชีทสรุปทั้งหมด | StudySheet</title>
+  <link rel="stylesheet" href="css/global.css" />
+  <link rel="stylesheet" href="css/products.css" />
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="container">
+      <a href="index.html" class="navbar-brand">StudySheet</a>
+      <ul class="navbar-nav">
+        <li><a href="index.html">หน้าแรก</a></li>
+        <li><a href="product.html" class="active">ชีทสรุปทั้งหมด</a></li>
+        <li><a href="exam-list.html">ทำข้อสอบ</a></li>
+      </ul>
+        <div class="navbar-actions">
+          <div class="cart-dropdown-wrapper">
+            <div class="cart-badge cart-toggle">🛒 <span class="badge" id="cart-count">0</span></div>
+            <div class="cart-dropdown" id="cart-dropdown"></div>
+          </div>
+          <div id="auth-nav"></div>
+        </div>
+    </div>
+  </nav>
+
+  <!-- Products Page -->
+  <section class="section">
+    <div class="container">
+      <div class="section-header">
+        <h1>ชีทสรุปทั้งหมด</h1>
+        <p>เลือกชีทสรุปที่ตรงกับสายวิชาของคุณ</p>
+      </div>
+
+      <!-- Filters & Search -->
+      <div class="filter-bar">
+        <input type="text" id="search-input" class="form-control" placeholder="ค้นหาชีทสรุป..." style="max-width:300px;" />
+        <select id="sort-select" class="sort-select">
+          <option value="newest">ล่าสุด</option>
+          <option value="price-asc">ราคา: น้อย → มาก</option>
+          <option value="price-desc">ราคา: มาก → น้อย</option>
+          <option value="name-asc">ชื่อ: A → Z</option>
+        </select>
+      </div>
+
+      <!-- Product Grid -->
+      <div class="product-grid" id="product-grid">
+        <div class="loading-overlay" style="grid-column:1/-1;">
+          <span class="spinner"></span> กำลังโหลด...
+        </div>
+      </div>
+
+      <!-- Pagination -->
+      <div class="pagination" id="pagination"></div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <p>StudySheet © 2026</p>
+    </div>
+  </footer>
+
+  <script src="javascript/auth.js"></script>
+  <script src="javascript/product.js"></script>
+</body>
+</html>

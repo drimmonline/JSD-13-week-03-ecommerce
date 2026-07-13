@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>เลือกข้อสอบ | StudySheet</title>
+  <link rel="stylesheet" href="css/global.css" />
+  <link rel="stylesheet" href="css/exam.css" />
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="container">
+      <a href="index.html" class="navbar-brand">StudySheet</a>
+      <ul class="navbar-nav">
+        <li><a href="index.html">หน้าแรก</a></li>
+        <li><a href="product.html">ชีทสรุปทั้งหมด</a></li>
+        <li><a href="exam-list.html" class="active">ทำข้อสอบ</a></li>
+      </ul>
+      <div class="navbar-actions">
+        <div class="cart-dropdown-wrapper">
+          <div class="cart-badge cart-toggle">🛒 <span class="badge" id="cart-count">0</span></div>
+          <div class="cart-dropdown" id="cart-dropdown"></div>
+        </div>
+        <div id="auth-nav"></div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Exam List -->
+  <div class="exam-list-container">
+    <div class="exam-list-header">
+      <h1>เลือกข้อสอบ</h1>
+      <p>เลือกหมวดหมู่และชุดข้อสอบที่ต้องการ</p>
+    </div>
+
+    <!-- Category Tabs -->
+    <div class="category-tabs" id="category-tabs"></div>
+
+    <!-- Exam Grid -->
+    <div class="exam-grid" id="exam-grid">
+      <div class="loading-overlay" style="grid-column:1/-1;">
+        <span class="spinner"></span> กำลังโหลดข้อสอบ...
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <p>StudySheet © 2026</p>
+    </div>
+  </footer>
+
+  <script src="javascript/auth.js"></script>
+  <script src="javascript/product.js"></script>
+  <script src="javascript/exam.js"></script>
+</body>
+</html>

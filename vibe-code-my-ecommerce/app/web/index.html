@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="th">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>StudySheet - ชีทสรุป & ข้อสอบออนไลน์</title>
+    <link rel="stylesheet" href="css/global.css" />
+    <link rel="stylesheet" href="css/products.css" />
+    <link rel="stylesheet" href="css/exam.css" />
+  </head>
+  <body>
+    <!-- Navbar -->
+    <nav class="navbar">
+      <div class="container">
+        <a href="index.html" class="navbar-brand">StudySheet</a>
+        <ul class="navbar-nav">
+          <li><a href="index.html" class="active">หน้าแรก</a></li>
+          <li><a href="product.html">ชีทสรุปทั้งหมด</a></li>
+          <li><a href="exam-list.html">ทำข้อสอบ</a></li>
+        </ul>
+        <div class="navbar-actions">
+          <div class="cart-dropdown-wrapper">
+            <div class="cart-badge cart-toggle">🛒 <span class="badge" id="cart-count">0</span></div>
+            <div class="cart-dropdown" id="cart-dropdown"></div>
+          </div>
+          <div id="auth-nav"></div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section
+      style="
+        padding: 6rem 0;
+        text-align: center;
+        border-bottom: 1px solid var(--color-border);
+      "
+    >
+      <div class="container" style="max-width: 700px">
+        <h1
+          style="
+            font-size: 2.5rem;
+            font-weight: 700;
+            letter-spacing: -0.03em;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+          "
+        >
+          Upgrade your grades.<br />Distraction-free.
+        </h1>
+        <p
+          style="
+            color: var(--color-gray-500);
+            font-size: 1rem;
+            margin-bottom: 2.5rem;
+            line-height: 1.6;
+          "
+        >
+          ชีทสรุปคุณภาพสูง และระบบจำลองข้อสอบอัจฉริยะ ขับเคลื่อนด้วย AI
+        </p>
+        <div
+          style="
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+          "
+        >
+          <a href="exam-list.html" class="btn btn-primary btn-lg"
+            >เริ่มทำข้อสอบ</a
+          >
+          <a href="product.html" class="btn btn-outline btn-lg"
+            >ดูชีทสรุปทั้งหมด</a
+          >
+        </div>
+      </div>
+    </section>
+
+    <!-- Marketplace Section -->
+    <section class="section">
+      <div class="container">
+        <div class="section-header">
+          <h2>ชีทสรุปล่าสุด</h2>
+          <p>ชีทสรุปคุณภาพสูง อัปเดตล่าสุด เหมาะสำหรับเตรียมสอบ</p>
+        </div>
+        <div class="product-grid" id="featured-products">
+          <div class="loading-overlay" style="grid-column: 1/-1">
+            <span class="spinner"></span> กำลังโหลด...
+          </div>
+        </div>
+        <div style="text-align: center; margin-top: 2rem">
+          <a href="product.html" class="btn btn-outline">ดูสินค้าทั้งหมด →</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Exam Testing Hub -->
+    <section
+      class="section"
+      style="
+        background-color: var(--color-gray-100);
+        border-top: 1px solid var(--color-border-light);
+        border-bottom: 1px solid var(--color-border-light);
+      "
+    >
+      <div class="container">
+        <div class="section-header">
+          <h2>Exam Testing Hub</h2>
+          <p>เตรียมความพร้อมก่อนสอบจริง ด้วยระบบจำลองข้อสอบ</p>
+        </div>
+        <div class="exam-grid" id="featured-exams">
+          <div class="loading-overlay" style="grid-column: 1/-1">
+            <span class="spinner"></span> กำลังโหลด...
+          </div>
+        </div>
+        <div style="text-align: center; margin-top: 2rem">
+          <a href="exam-list.html" class="btn btn-outline">ดูข้อสอบทั้งหมด →</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container">
+        <p>StudySheet © 2026 - ชีทสรุป & ข้อสอบออนไลน์</p>
+      </div>
+    </footer>
+
+    <script src="javascript/auth.js"></script>
+    <script src="javascript/product.js"></script>
+    <script src="javascript/exam.js"></script>
+    <script src="javascript/main.js"></script>
+  </body>
+</html>
