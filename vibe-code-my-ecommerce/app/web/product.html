@@ -13,18 +13,29 @@
   <nav class="navbar">
     <div class="container">
       <a href="index.html" class="navbar-brand">StudySheet</a>
-      <ul class="navbar-nav">
+
+      <!-- Hamburger Toggler -->
+      <button class="navbar-toggler" id="navbarToggler" aria-label="Toggle menu">
+        <span class="navbar-toggler-bar"></span>
+        <span class="navbar-toggler-bar"></span>
+        <span class="navbar-toggler-bar"></span>
+      </button>
+
+      <ul class="navbar-nav" id="navbarNav">
         <li><a href="index.html">หน้าแรก</a></li>
         <li><a href="product.html" class="active">ชีทสรุปทั้งหมด</a></li>
         <li><a href="exam-list.html">ทำข้อสอบ</a></li>
       </ul>
-        <div class="navbar-actions">
-          <div class="cart-dropdown-wrapper">
-            <div class="cart-badge cart-toggle">🛒 <span class="badge" id="cart-count"></span></div>
-            <div class="cart-dropdown" id="cart-dropdown"></div>
+      <div class="navbar-actions">
+        <div class="cart-dropdown-wrapper">
+          <div class="cart-icon-round cart-toggle" title="ตะกร้าสินค้า">
+            🛒
+            <span class="badge" id="cart-count"></span>
           </div>
-          <div id="auth-nav"></div>
+          <div class="cart-dropdown" id="cart-dropdown"></div>
         </div>
+        <div id="auth-nav"></div>
+      </div>
     </div>
   </nav>
 

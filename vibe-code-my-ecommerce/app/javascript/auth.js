@@ -199,6 +199,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const loginForm = document.getElementById("login-form");
   const registerForm = document.getElementById("register-form");
 
+  setupHamburgerToggle();
   setupAuthTabs();
 
   if (loginForm) {
@@ -215,6 +216,26 @@ document.addEventListener("DOMContentLoaded", () => {
 
   setupNavbar();
 });
+
+// ===== Hamburger Toggle - ซ่อน/แสดงเมนูบนมือถือ =====
+function setupHamburgerToggle() {
+  const toggler = document.getElementById('navbarToggler');
+  const nav = document.getElementById('navbarNav');
+  if (!toggler || !nav) return;
+
+  toggler.addEventListener('click', function () {
+    this.classList.toggle('open');
+    nav.classList.toggle('open');
+  });
+
+  // ปิดเมนูเมื่อคลิกลิงก์ใน nav
+  nav.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+      toggler.classList.remove('open');
+      nav.classList.remove('open');
+    });
+  });
+}
 
 // ===== ตั้งค่า Tabs ในหน้า Auth =====
 function setupAuthTabs() {
