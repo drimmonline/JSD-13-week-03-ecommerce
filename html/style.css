@@ -7,9 +7,15 @@ body {
 
 .container {
   display: flex;
-  justify-content: center;
   align-items: center;
-  min-height: 50vh;
+  justify-content: center;
+
+  gap: 60px;
+  min-height: 60vh;
+
+  padding-left: 25%;
+  padding-right: 25%;
+  width: 100%;
 }
 
 img {
@@ -23,6 +29,7 @@ img {
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   margin: 10px;
   width: 300px;
+  border-radius: 8px;
 }
 
 .card-header {
@@ -38,5 +45,5 @@ img {
 .container-card {
   display: flex;
   align-items: center;
-  justify-content: space-around;
+  justify-content: space-evenly;
 }
