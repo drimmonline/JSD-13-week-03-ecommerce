@@ -9,13 +9,12 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-
-  gap: 60px;
-  min-height: 60vh;
-
-  padding-left: 25%;
-  padding-right: 25%;
   width: 100%;
+  margin-left: 20%;
+  margin-right: 20%;
+}
+.container-item {
+  padding: 5%;
 }
 
 img {
@@ -28,7 +27,7 @@ img {
   padding: 10px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   margin: 10px;
-  width: 300px;
+  width: 250px;
   border-radius: 8px;
 }
 
@@ -45,5 +44,5 @@ img {
 .container-card {
   display: flex;
   align-items: center;
-  justify-content: space-evenly;
+  justify-content: center;
 }
