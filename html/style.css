@@ -203,15 +203,19 @@ input[type="checkbox"] {
 }
 
 .container-cv {
-  padding: 20px;
-  background-color: rgba(255, 255, 255, 0.8);
-  margin-right: 60px;
   max-width: 1100px;
   margin: 0 auto;
   gap: 50px;
   max-width: 1000px;
   justify-content: center;
   align-items: center;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+  padding: 30px;
+}
+.adjust-container-cv {
+  margin: 15px;
 }
 .education-container {
   display: flex;
