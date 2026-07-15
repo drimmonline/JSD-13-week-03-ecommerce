@@ -4,45 +4,217 @@ body {
   margin: 0;
   padding: 0;
 }
-
+.menu {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  list-style: none;
+  background-color: black;
+}
+.menu a {
+  text-decoration: none;
+  color: white;
+}
+.nav-item {
+  padding: 10px;
+}
 .container {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
   width: 100%;
-  margin-left: 20%;
-  margin-right: 20%;
+  max-width: 1100px;
+  margin: 0 auto;
+  gap: 50px;
 }
 .container-item {
   padding: 5%;
 }
 
+.image-port {
+  border-radius: 8px;
+  width: 300px;
+  height: auto;
+  object-fit: cover;
+}
+.img-item-abs {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 15px;
+  border-radius: 10px;
+}
 img {
-  border-radius: 8px;
+  border-radius: 15px;
 }
 
-.card {
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  padding: 10px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  margin: 10px;
-  width: 250px;
-  border-radius: 8px;
+.card-item img {
+  width: 100%; /* ขยายเต็มความกว้างของเนื้อหาภายใน */
+  height: 200px; /* 💡 กำหนดความสูงที่แน่นอนเพื่อให้ object-fit ทำงาน */
+  /* 💡 หัวใจสำคัญคือตรงนี้! */
+  margin-left: -20px; /* ใช้ค่าลบเท่ากับ padding ของ .card เพื่อให้รูปขยายไปชนขอบซ้าย */
+  margin-right: -20px; /* ใช้ค่าลบเพื่อขยายไปชนขอบขวา */
+  width: calc(
+    100% + 40px
+  ); /* ขยายขนาดรูปให้กว้างกว่ากล่องเนื้อหา เพื่อชนขอบจริงๆ */
+  object-fit: contain; /* รักษาไม่ให้รูปเบี้ยว และโชว์รูปให้เต็มในพื้นที่ */
+  margin-top: 0;
+  margin-bottom: 20px; /* ระยะห่างจากหัวข้อ */
 }
 
-.card-header {
-  background-color: #f0f0f0;
-  padding: 5px;
-  font-weight: bold;
+ul {
+  margin-left: 0;
+  padding: 0;
 }
 
-.card-body {
-  padding: 10px;
-}
-
-.container-card {
+.table-container {
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  padding: 10px;
+}
+table {
+  width: 100%;
+  max-width: 800px; /* จำกัดความกว้างเพื่อไม่ให้แบนเกินไป */
+  margin: 20px auto;
+  border-collapse: collapse; /* ทำให้เส้นแบ่งบรรทัดบางที่สุด */
+  background-color: white;
+  border-radius: 12px;
+  overflow: hidden; /* เพื่อให้มุมโค้งมนตัดสีหัวข้อ */
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05); /* เพิ่มเงาบางๆ */
+}
+thead {
+  background-color: black;
+  color: white;
+  border: 1px;
+  border-radius: 15px;
+}
+th,
+td {
+  text-align: center;
+  padding: 20px;
+}
+
+.port-card {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  flex-wrap: wrap;
+  width: 100%;
+  max-width: 2000px;
+  margin: 50px auto;
+  padding: 0 20px;
+}
+.card-item {
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+  padding: 30px;
+  width: 400px;
+
+  box-sizing: border-box;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+}
+.card:hover {
+  transform: translateY(-5px); /* เลื่อนขึ้นเล็กน้อย */
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08); /* เงาฟุ้งขึ้น */
+}
+.port-header {
+  background: none;
+  padding: 0;
+  color: #000000;
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 20px;
+  position: relative;
+}
+.port-body {
+  padding: 0;
+  color: #555555;
+  font-size: 1rem;
+  line-height: 1.7;
+}
+
+.main {
+  background-color: #f0f8ff;
+  padding: 10px;
+}
+.work-experience {
+  padding: 10px;
+  background-color: #f3f8fc;
+}
+
+/* style form */
+
+input[type="text"] {
+  width: 100%;
+  border-radius: 10px;
+  padding: 10px;
+}
+input[type="password"] {
+  width: 100%;
+  border-radius: 10px;
+  padding: 10px;
+}
+input[type="email"] {
+  width: 100%;
+  border-radius: 10px;
+  padding: 10px;
+}
+input[type="text"]:focus {
+  background-color: #f0f8ff;
+}
+input[type="email"]:focus {
+  background-color: #f0f8ff;
+}
+input[type="password"] {
+  background-color: #f0f8ff;
+}
+
+.form-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+}
+.interest {
+  padding: 15px;
+  margin-left: 20px;
+  margin-right: 20px;
+}
+.btn {
+  background-color: black;
+  color: white;
+  border-radius: 10px;
+  padding: 10px;
+  width: 103%;
+}
+.type-package {
+  display: flex;
+  padding: 5px;
+}
+.custom-checkbox {
+  display: flex;
+  padding: 5px;
+}
+input[type="checkbox"] {
+  padding: 10px;
+}
+
+.container-cv {
+  padding: 20px;
+  background-color: rgba(255, 255, 255, 0.8);
+  margin-right: 60px;
+  max-width: 1100px;
+  margin: 0 auto;
+  gap: 50px;
+  max-width: 1000px;
+  justify-content: center;
+  align-items: center;
+}
+.education-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }

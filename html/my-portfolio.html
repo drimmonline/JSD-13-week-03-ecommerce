@@ -13,76 +13,116 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <div class="container">
-      <div class="container-item">
-        <div>
-          <h1>Puttipong Ranthakit</h1>
-          <p>In the near future i want to be a fullstack software developer.</p>
-          <a href="https://github.com/drimmonline"
-            ><img
-              src="./images/github.png"
-              alt="github image"
-              width="10%"
-              height="10%"
-          /></a>
-          <a href="#"
-            ><img
-              src="./images/facebook.png"
-              alt="facebook image"
-              width="10%"
-              height="10%"
-          /></a>
-          <a href="#"
-            ><img
-              src="./images/linkedin.png"
-              alt="linkedin image"
-              width="10%"
-              height="10%"
-          /></a>
+    <ul class="menu">
+      <li class="nav-item"><a href="my-portfolio.html">Home</a></li>
+      <li class="nav-item"><a href="cat.html">Cat</a></li>
+      <li class="nav-item"><a href="items.html">ของดีเลยเฮีย</a></li>
+      <li class="nav-item"><a href="form.html">Form</a></li>
+    </ul>
+    <section class="main">
+      <div class="container">
+        <div class="container-item">
+          <div>
+            <h1>Puttipong Ranthakit</h1>
+            <p>
+              In the near future i want to be a fullstack software developer.
+            </p>
+            <a href="https://github.com/drimmonline"
+              ><img
+                src="./images/github.png"
+                alt="github image"
+                width="10%"
+                height="10%"
+            /></a>
+            <a href="#"
+              ><img
+                src="./images/facebook.png"
+                alt="facebook image"
+                width="10%"
+                height="10%"
+            /></a>
+            <a href="#"
+              ><img
+                src="./images/linkedin.png"
+                alt="linkedin image"
+                width="10%"
+                height="10%"
+            /></a>
+          </div>
+        </div>
+
+        <div class="container-item">
+          <img
+            class="image-port"
+            src="./images/IMG_8218.jpg"
+            alt="my image"
+            height="20%"
+            width="20%"
+          />
         </div>
       </div>
 
-      <div class="container-item">
-        <img
-          src="./images/IMG_8218.jpg"
-          alt="my image"
-          height="20%"
-          width="20%"
-        />
-      </div>
-    </div>
-
-    <div class="container-card">
-      <div class="card">
-        <div class="card-header">Frontend Developer</div>
-        <div class="card-body">
-          <ul>
-            <li>HTML</li>
-            <li>CSS</li>
-            <li>JS</li>
-          </ul>
+      <div class="port-card">
+        <div class="card-item">
+          <div class="port-header">Frontend Developer</div>
+          <div class="port-body">
+            <ul>
+              <li>HTML</li>
+              <li>CSS</li>
+              <li>JS</li>
+            </ul>
+          </div>
+        </div>
+        <div class="card-item">
+          <div class="port-header">Backend Developer</div>
+          <div class="port-body">
+            <ul>
+              <li>Express</li>
+              <li>NestJs</li>
+              <li>MongoDbs</li>
+            </ul>
+          </div>
+        </div>
+        <div class="card-item">
+          <div class="port-header">UX/UI Design</div>
+          <div class="port-body">
+            <ul>
+              <li>Figma</li>
+              <li>Canva</li>
+              <li>Adobe Illustrator</li>
+            </ul>
+          </div>
         </div>
       </div>
-      <div class="card">
-        <div class="card-header">Backend Developer</div>
-        <div class="card-body">
-          <ol>
-            <li>Express</li>
-            <li>NestJs</li>
-            <li>MongoDbs</li>
-          </ol>
-        </div>
+    </section>
+    <section class="work-experience">
+      <h3 style="text-align: center">Working Experience</h3>
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>Company</th>
+              <th>Role</th>
+              <th>Duration</th>
+            </tr>
+          </thead>
+          <tr>
+            <td>Wongnai</td>
+            <td>Full-stack Developer</td>
+            <td>2027-2029</td>
+          </tr>
+          <tr>
+            <td>Microsoft</td>
+            <td>Full-stack Developer</td>
+            <td>2029-2035</td>
+          </tr>
+          <tr>
+            <td>Apple</td>
+            <td>Software Analysis</td>
+            <td>2035-2040</td>
+          </tr>
+        </table>
       </div>
-      <div class="card">
-        <div class="card-header">UX/UI design</div>
-        <div class="card-body">
-          <ol>
-            <li>Figma</li>
-            <li>Canva</li>
-            <li>Photoshop</li>
-          </ol>
-        </div>
-      </div>
-    </div>
+    </section>
   </body>
 </html>

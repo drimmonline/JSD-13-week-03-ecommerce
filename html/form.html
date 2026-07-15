@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Form</title>
+    <link rel="stylesheet" href="style.css" />
+ <link
+      href="https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <ul class="menu">
+      <li class="nav-item"><a href="my-portfolio.html">Home</a></li>
+      <li class="nav-item"><a href="cat.html">Cat</a></li>
+      <li class="nav-item"><a href="items.html">ของดีเลยเฮีย</a></li>
+      <li class="nav-item"><a href="form.html">Form</a></li>
+      <li class="nav-item"><a href="cv.html">CV</a></li>
+    </ul>
+    
+     <h1 style="text-align: center;">สมัครสมาชิก</h1>
+    <div class="form-container">
+    <form action="#" method="post">
+      <label>username
+        <input type="text" placeholder="กรุณากรอกชื่อของคุณ" required>
+      </label>
+            <label>passowrd
+        <input type="password" placeholder="password" required>
+      </label>
+       </label>
+            <label>email
+        <input type="email" placeholder="email" required>
+      </label>
+ 
+<div class="custom-checkbox">ความสนใจ 
+<input type="checkbox" id="interest1" name="interest1" value="movies">
+<label for="interest1"> ดูหนัง</label><br>
+<input type="checkbox" id="interest2" name="interest2" value="musics">
+<label for="interest2"> ฟังเพลง </label><br>
+<input type="checkbox" id="interest3" name="interest3" value="games">
+<label for="interest3"> เล่นเกม</label><br>
+</div>
+<div class="type-package">
+         ประเภท Package
+      <label> 
+        <input type="radio"id="free" name="genre" value="free" required>Free
+      </label>
+       <label>
+        <input type="radio"id="premium" name="genre" value="premium">Premium
+      </label>
+    </div>
+
+   <button type="submit" class="btn">ยืนยันการสมัคร</button>
+</form>
+</div>
+<h3 id="result"></h3>
+  </body>
+</html>
